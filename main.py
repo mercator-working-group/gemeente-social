@@ -1,6 +1,6 @@
 import parse_utils
 
-GEMEENTE_TLDS = 'https://raw.githubusercontent.com/mercator-working-group/gemeente-social/master/gemeente_urls.csv'
+GEMEENTE_TLDS = 'https://raw.githubusercontent.com/mercator-working-group/gemeente-social/master/seed-lists/gemeente_urls.csv'
 
 # Parse the TLD+1 level page seed list.
 page_list = parse_utils.parse_web_csv(GEMEENTE_TLDS)
