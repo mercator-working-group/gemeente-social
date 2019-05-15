@@ -69,6 +69,7 @@ fabric.properties
 
 #venv
 venv/
+data/
 
 *.pyc
 
