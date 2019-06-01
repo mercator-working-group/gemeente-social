@@ -13,7 +13,7 @@ def parse_web_csv(loc):
         for row in content.split('\n'):
             url_list.append(row.rstrip('\r\n'))
     except urllib2.URLError as e:
-        print type(e)
+        print(type(e))
     # print(content)
     return url_list
 
@@ -35,18 +35,43 @@ def get_one_depth_links(url):
     except urllib2.HTTPError, e:
         print ('Error code: ', e.code)
     except urllib2.URLError:
-        print ('Error code: URLError')
+        print('Error code: URLError')
+    except:
+        print('unknown error encountered')
 
     return links
 
 
 def write_dict_as_json(data, fullpath):
-    with open((fullpath + '.json'), 'w') as fp:
+    with open((fullpath), 'w') as fp:
         json.dump(data, fp, sort_keys=True, indent=4)
-    print ('successfully wrote to ' + fullpath)
+    print('successfully wrote to ' + fullpath)
 
 
 def load_from_json(fullpath):
     with open(fullpath, 'r') as fp:
         data = json.load(fp)
     return data
+
+
+def get_top_level_images(url):
+    opener = urllib2.build_opener(
+        urllib2.HTTPCookieProcessor()
+    )
+    links = []
+
+    try:
+        html_page = opener.open(url)
+        soup = BeautifulSoup(html_page)
+        print ('processing: ' + str(url))
+        for link in soup.findAll(
+            # 'a', attrs={'href': re.compile("^https?://")}
+            'div', attrs={'div': re.compile("div.tile--img__media")}
+        ):
+            links.append(link.get('div'))
+    except urllib2.HTTPError, e:
+        print ('Error code: ', e.code)
+    except urllib2.URLError:
+        print('Error code: URLError')
+
+    return links
